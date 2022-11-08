@@ -1,7 +1,9 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import 'semantic-ui-css/semantic.min.css'
 import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
+import { useModal } from '../hooks/useModal';
 
 interface SearchCatImage {
   id: string;
@@ -24,6 +26,12 @@ const Home: NextPage<IndexPageProps> = ({ initialCatImageUrl }) => {
 
   const [catImageUrl, setCatImageUrl] = useState(initialCatImageUrl);
   const [isLoading, setIsLoading] = useState(false);
+  const { modalState, setModalState } = useModal();
+
+  useEffect(() => setModalState(true), []);
+
+  console.log(modalState)
+
 
   const handleClick = async () => {
     setIsLoading(true)
@@ -31,6 +39,7 @@ const Home: NextPage<IndexPageProps> = ({ initialCatImageUrl }) => {
     setCatImageUrl(catImage.url);
     setIsLoading(false);
   }
+
 
   return (
     <div style={{
